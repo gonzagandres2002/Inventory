@@ -50,26 +50,6 @@ public class UI extends javax.swing.JFrame {
             }
         }
         );
-        /*
-        jtable_inicio.addMouseListener(new MouseAdapter(){
-            public void mousePressed(MouseEvent Mouse_evt)
-                {
-                    JTable table = (JTable) Mouse_evt.getSource();
-                    Point point = Mouse_evt.getPoint();
-                    int row = table.rowAtPoint(point);
-                    if(Mouse_evt.getClickCount() == 1)
-               
-                {
-                    jnombre.setText(jtable_inicio.getValueAt(jtable_inicio.getSelectedRow(), 1).toString());
-                    jcodigo.setText(jtable_inicio.getValueAt(jtable_inicio.getSelectedRow(), 2).toString());
-                    jcategoria.setText(jtable_inicio.getValueAt(jtable_inicio.getSelectedRow(), 3).toString());
-                    jprecio.setText(jtable_inicio.getValueAt(jtable_inicio.getSelectedRow(), 4).toString());
-                }
-                }
-        });
-    }
-         */
-
     }
 
     /**
@@ -89,12 +69,15 @@ public class UI extends javax.swing.JFrame {
         txtPrice = new javax.swing.JTextField();
         txtQuantity = new javax.swing.JTextField();
         lblInventory = new javax.swing.JLabel();
-        btnSave = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         dataTable = new javax.swing.JTable();
         btnAdd = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
+        txtSearch = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -107,13 +90,6 @@ public class UI extends javax.swing.JFrame {
         lblQuantity.setText("Quantity");
 
         lblInventory.setText("Inventory Manager");
-
-        btnSave.setText("Save");
-        btnSave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveActionPerformed(evt);
-            }
-        });
 
         btnDelete.setText("Delete");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -149,6 +125,23 @@ public class UI extends javax.swing.JFrame {
             }
         });
 
+        txtSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchActionPerformed(evt);
+            }
+        });
+
+        btnSearch.setText("Search");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Update selected row");
+
+        jLabel2.setText("or add item");
+
         javax.swing.GroupLayout contentLayout = new javax.swing.GroupLayout(content);
         content.setLayout(contentLayout);
         contentLayout.setHorizontalGroup(
@@ -156,67 +149,87 @@ public class UI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contentLayout.createSequentialGroup()
                 .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(contentLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 561, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(contentLayout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addComponent(btnSave)
-                        .addGap(53, 53, 53)
-                        .addComponent(btnDelete)
-                        .addGap(49, 49, 49)
-                        .addComponent(btnUpdate)
-                        .addGap(38, 38, 38)
-                        .addComponent(btnAdd))
-                    .addGroup(contentLayout.createSequentialGroup()
                         .addGap(276, 276, 276)
-                        .addComponent(lblInventory, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                        .addComponent(lblInventory, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(197, 197, 197))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contentLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 561, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
                 .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(contentLayout.createSequentialGroup()
-                        .addGap(0, 6, Short.MAX_VALUE)
                         .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(contentLayout.createSequentialGroup()
+                                .addComponent(lblQuantity)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtQuantity))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contentLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
                                 .addComponent(lblPrice)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(30, 30, 30))
+                    .addGroup(contentLayout.createSequentialGroup()
+                        .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(contentLayout.createSequentialGroup()
                                 .addComponent(lblName)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(18, 18, 18)
+                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel1)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(contentLayout.createSequentialGroup()
+                .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(contentLayout.createSequentialGroup()
-                        .addComponent(lblQuantity)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtQuantity)))
-                .addGap(30, 30, 30))
+                        .addGap(58, 58, 58)
+                        .addComponent(btnDelete)
+                        .addGap(78, 78, 78)
+                        .addComponent(btnUpdate)
+                        .addGap(83, 83, 83)
+                        .addComponent(btnAdd))
+                    .addGroup(contentLayout.createSequentialGroup()
+                        .addGap(81, 81, 81)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(btnSearch)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         contentLayout.setVerticalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(contentLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblInventory, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
                 .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(contentLayout.createSequentialGroup()
-                        .addGap(51, 51, 51)
+                        .addContainerGap()
+                        .addComponent(lblInventory, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSearch))
+                        .addGap(36, 36, 36)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(contentLayout.createSequentialGroup()
+                        .addGap(93, 93, 93)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
                         .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblName)
                             .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(41, 41, 41)
+                        .addGap(32, 32, 32)
                         .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblPrice)
-                            .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(53, 53, 53)
+                            .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblPrice))
+                        .addGap(34, 34, 34)
                         .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblQuantity)
-                            .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(47, 47, 47)
+                            .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(25, 25, 25)
                 .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSave)
                     .addComponent(btnDelete)
                     .addComponent(btnUpdate)
                     .addComponent(btnAdd))
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -233,28 +246,59 @@ public class UI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-
-
-    }//GEN-LAST:event_btnSaveActionPerformed
-
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        InsertRecordStoredProcedure(txtName, txtPrice, txtQuantity);
+        boolean valueExists = false;
+        String targetValue = txtName.getText().toLowerCase(); 
+
+        for (int row = 0; row < dataTable.getRowCount(); row++) {
+            String value = dataTable.getValueAt(row, 1).toString().toLowerCase(); 
+            if (value != null && value.equals(targetValue)) {
+                valueExists = true;
+                break;
+            }
+        }
+        
+        if(!valueExists){
+            InsertRecordStoredProcedure(txtName, txtPrice, txtQuantity);
         showTable();
+        }else{
+            JOptionPane.showMessageDialog(null, "Item already contained");
+        }
+        
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        try{
         String id = dataTable.getValueAt(dataTable.getSelectedRow(), 0).toString();
         deleteRecord(id);
         showTable();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Select a row to delete");
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        String id = dataTable.getValueAt(dataTable.getSelectedRow(), 0).toString();
-        System.out.println(id);
-        updateItem(txtName, txtPrice, txtQuantity, id);
-        showTable();
+        try {
+            String id = dataTable.getValueAt(dataTable.getSelectedRow(), 0).toString();
+            updateItem(txtName, txtPrice, txtQuantity, id);
+            showTable();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            JOptionPane.showMessageDialog(null, "Select a row to update");
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        if (txtSearch.getText().isBlank()) {
+            showTable();
+        } else {
+            String statement = "SELECT * FROM Items WHERE Name = '" + txtSearch.getText() + "';";
+            showTable(statement);
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
 
     /**
      * @param argscontenmmand line arguments
@@ -292,10 +336,19 @@ public class UI extends javax.swing.JFrame {
     }
 
     public void showTable() {
-        String sql = "select * from Items";
+        showTable("select * from Items");
+    }
+
+    public void showTable(String statement) {
+        String sql = statement;
         Statement st;
 
-        DefaultTableModel model = new DefaultTableModel();
+        DefaultTableModel model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         model.addColumn("Id");
         model.addColumn("Name");
         model.addColumn("Price");
@@ -328,7 +381,7 @@ public class UI extends javax.swing.JFrame {
             proc.setInt(3, Integer.parseInt(quantity.getText()));
             proc.executeUpdate();
         } catch (Exception e) {
-            System.out.println(e);
+            JOptionPane.showMessageDialog(null, "Incorrect Format: \n" + e.toString());
         }
     }
 
@@ -345,17 +398,20 @@ public class UI extends javax.swing.JFrame {
     }
 
     public void updateItem(JTextField name, JTextField price, JTextField quantity, String id) {
-        String sql = "UPDATE Items SET Name = '" + name.getText() + "', Price = " + new BigDecimal(price.getText())
-        + ", Quantity = " + Integer.valueOf(quantity.getText()) + " WHERE ItemID = " + id + ";";
 
-
-        Statement st;
         try {
+
+            String sql = "UPDATE Items SET Name = '" + name.getText() + "', Price = " + new BigDecimal(price.getText())
+                    + ", Quantity = " + Integer.valueOf(quantity.getText()) + " WHERE ItemID = " + id + ";";
+
+            Statement st;
             st = connection.createStatement();
             int rs = st.executeUpdate(sql);
             JOptionPane.showMessageDialog(null, "The Record has been updated successfully");
         } catch (SQLException e) {
-            System.out.println(e);
+            JOptionPane.showMessageDialog(null, e.toString());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Incorrect Format: \n" + e.toString());
         }
     }
 
@@ -363,10 +419,12 @@ public class UI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JPanel content;
     private javax.swing.JTable dataTable;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblInventory;
     private javax.swing.JLabel lblName;
@@ -375,5 +433,6 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtPrice;
     private javax.swing.JTextField txtQuantity;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }
