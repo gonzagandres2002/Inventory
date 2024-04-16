@@ -17,11 +17,11 @@ import javax.swing.JOptionPane;
  */
 public class ConnectDB {
     public static Connection conn;
-    public String user = "sa"; //Actual user using SQL Server Authentication
+    public String user = "sqluser"; 
+//real SQL user using SQL Server Authentication with write and read permissons
     public String pass = "1234";
     public String url = "jdbc:sqlserver://localhost:1433;databaseName"
             + "=InventoryDB;trustServerCertificate=true"; 
-    //supposing 1433 is the TCP Dynamic Ports value (configuration manager)
     //Use trustServerCertificate=true if you don't have a SQL Server paid version
     public Connection Connect(){
         conn = null;
