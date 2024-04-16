@@ -5,6 +5,7 @@
 package com.mycompany.inventory.ui;
 
 import com.mycompany.inventory.ConnectDB;
+import com.mycompany.inventory.Product;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -247,43 +248,51 @@ public class UI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        boolean valueExists = false;
-        String targetValue = txtName.getText().toLowerCase(); 
+        try {
+            Product product = new Product(txtName, txtPrice, txtQuantity);
+            
+            boolean valueExists = false;
+            String targetValue = product.getName().toLowerCase();
 
-        for (int row = 0; row < dataTable.getRowCount(); row++) {
-            String value = dataTable.getValueAt(row, 1).toString().toLowerCase(); 
-            if (value != null && value.equals(targetValue)) {
-                valueExists = true;
-                break;
+            for (int row = 0; row < dataTable.getRowCount(); row++) {
+                String value = dataTable.getValueAt(row, 1).toString().toLowerCase();
+                if (value != null && value.equals(targetValue)) {
+                    valueExists = true;
+                    break;
+                }
             }
+
+            if (!valueExists) {
+                InsertRecordStoredProcedure(product.getName(), product.getPrice(), product.getQuantity());
+                showTable();
+            } else {
+                JOptionPane.showMessageDialog(null, "Item already contained");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Incorrect Format: \n" + e.toString());
         }
-        
-        if(!valueExists){
-            InsertRecordStoredProcedure(txtName, txtPrice, txtQuantity);
-        showTable();
-        }else{
-            JOptionPane.showMessageDialog(null, "Item already contained");
-        }
-        
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        try{
-        String id = dataTable.getValueAt(dataTable.getSelectedRow(), 0).toString();
-        deleteRecord(id);
-        showTable();
-        }catch(Exception e){
+        try {
+            String id = dataTable.getValueAt(dataTable.getSelectedRow(), 0).toString();
+            deleteRecord(id);
+            showTable();
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Select a row to delete");
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         try {
+            Product product = new Product(txtName, txtPrice, txtQuantity);
             String id = dataTable.getValueAt(dataTable.getSelectedRow(), 0).toString();
-            updateItem(txtName, txtPrice, txtQuantity, id);
+            updateItem(product.getName(), product.getPrice(), product.getQuantity(), id);
             showTable();
         } catch (ArrayIndexOutOfBoundsException e) {
             JOptionPane.showMessageDialog(null, "Select a row to update");
+        } catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(null, "Incorrect Format: \n" + e.toString());
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
@@ -373,12 +382,12 @@ public class UI extends javax.swing.JFrame {
         }
     }
 
-    public void InsertRecordStoredProcedure(JTextField name, JTextField price, JTextField quantity) {
+    public void InsertRecordStoredProcedure(String name, Double price, Integer quantity) {
         try {
             CallableStatement proc = connection.prepareCall("{call InsertNewItem(?, ?, ?)}");
-            proc.setString(1, name.getText());
-            proc.setBigDecimal(2, new BigDecimal(price.getText()));
-            proc.setInt(3, Integer.parseInt(quantity.getText()));
+            proc.setString(1, name);
+            proc.setBigDecimal(2, new BigDecimal(price));
+            proc.setInt(3, quantity);
             proc.executeUpdate();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Incorrect Format: \n" + e.toString());
@@ -397,12 +406,12 @@ public class UI extends javax.swing.JFrame {
         }
     }
 
-    public void updateItem(JTextField name, JTextField price, JTextField quantity, String id) {
+    public void updateItem(String name, Double price, Integer quantity, String id) {
 
         try {
 
-            String sql = "UPDATE Items SET Name = '" + name.getText() + "', Price = " + new BigDecimal(price.getText())
-                    + ", Quantity = " + Integer.valueOf(quantity.getText()) + " WHERE ItemID = " + id + ";";
+            String sql = "UPDATE Items SET Name = '" + name + "', Price = " + price
+                    + ", Quantity = " + quantity + " WHERE ItemID = " + id + ";";
 
             Statement st;
             st = connection.createStatement();

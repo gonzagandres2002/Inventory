@@ -4,44 +4,40 @@
  */
 package com.mycompany.inventory;
 
+import javax.swing.JTextField;
+
 /**
  *
  * @author andre
  */
 public class Product {
 
-    private String name;
-    private int quantity;
-    private double price;
+    private final String name;
+    private final int quantity;
+    private final double price;
 
-    public Product(String name, int quantity, double price) {
+    public Product(String name, double price, int quantity) {
         this.name = name;
         this.quantity = quantity;
         this.price = price;
+    }
+    
+    public Product(JTextField name, JTextField price, JTextField quantity) {
+        this.name = name.getText();
+        this.price = Double.valueOf(price.getText());
+        this.quantity = Integer.valueOf(quantity.getText());
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
     public double getPrice() {
         return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
     
     @Override
