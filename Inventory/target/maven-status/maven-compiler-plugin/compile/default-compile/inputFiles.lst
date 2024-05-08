@@ -1,3 +1,4 @@
-C:\Users\andre\Documents\GitHub\Inventory\Inventory\src\main\java\com\mycompany\inventory\ConnectDB.java
-C:\Users\andre\Documents\GitHub\Inventory\Inventory\src\main\java\com\mycompany\inventory\Product.java
+C:\Users\andre\Documents\GitHub\Inventory\Inventory\src\main\java\entities\Product.java
+C:\Users\andre\Documents\GitHub\Inventory\Inventory\src\main\java\service\ProductService.java
+C:\Users\andre\Documents\GitHub\Inventory\Inventory\src\main\java\dbo\ConnectDB.java
 C:\Users\andre\Documents\GitHub\Inventory\Inventory\src\main\java\com\mycompany\inventory\ui\UI.java

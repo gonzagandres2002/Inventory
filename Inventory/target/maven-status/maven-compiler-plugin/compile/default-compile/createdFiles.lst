@@ -1,12 +1,12 @@
+dbo\ConnectDB.class
 com\mycompany\inventory\ui\UI$5.class
 com\mycompany\inventory\ui\UI$3.class
 com\mycompany\inventory\ui\UI.class
 com\mycompany\inventory\ui\UI$6.class
 com\mycompany\inventory\ui\UI$7.class
-com\mycompany\inventory\Product.class
 com\mycompany\inventory\ui\UI$2.class
 com\mycompany\inventory\ui\UI$8.class
 com\mycompany\inventory\ui\UI$1.class
 com\mycompany\inventory\ui\UI$9.class
+entities\Product.class
 com\mycompany\inventory\ui\UI$4.class
-com\mycompany\inventory\ConnectDB.class

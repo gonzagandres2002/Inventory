@@ -4,21 +4,18 @@
  */
 package com.mycompany.inventory.ui;
 
-import com.mycompany.inventory.ConnectDB;
-import com.mycompany.inventory.Product;
+
+import entities.Product;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.math.BigDecimal;
-import java.sql.CallableStatement;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import service.ProductService;
 
 /**
  *
@@ -26,8 +23,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class UI extends javax.swing.JFrame {
 
-    private final ConnectDB conn = new ConnectDB();
-    private final Connection connection = conn.Connect();
+    private final ProductService services = new ProductService();
 
     /**
      * Creates new form UI
@@ -277,7 +273,7 @@ public class UI extends javax.swing.JFrame {
             }
 
             if (!valueExists) {
-                InsertRecordStoredProcedure(product.getName(), product.getPrice(), product.getQuantity());
+                services.InsertRecordStoredProcedure(product.getName(), product.getPrice(), product.getQuantity());
                 showTable();
             } else {
                 JOptionPane.showMessageDialog(null, "Item already contained");
@@ -290,7 +286,7 @@ public class UI extends javax.swing.JFrame {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         try {
             String id = dataTable.getValueAt(dataTable.getSelectedRow(), 0).toString();
-            deleteRecord(id);
+            services.deleteRecord(id);
             showTable();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Select a row to delete");
@@ -301,7 +297,7 @@ public class UI extends javax.swing.JFrame {
         try {
             Product product = new Product(txtName, txtPrice, txtQuantity);
             String id = dataTable.getValueAt(dataTable.getSelectedRow(), 0).toString();
-            updateItem(product.getName(), product.getPrice(), product.getQuantity(), id);
+            services.updateItem(product.getName(), product.getPrice(), product.getQuantity(), id);
             showTable();
         } catch (ArrayIndexOutOfBoundsException e) {
             JOptionPane.showMessageDialog(null, "Select a row to update");
@@ -385,7 +381,7 @@ public class UI extends javax.swing.JFrame {
 
         String[] data = new String[5];
         try {
-            st = connection.createStatement();
+            st = services.getConnection().createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
                 data[0] = rs.getString(1);
@@ -400,47 +396,9 @@ public class UI extends javax.swing.JFrame {
         }
     }
 
-    public void InsertRecordStoredProcedure(String name, Double price, Integer quantity) {
-        try {
-            CallableStatement proc = connection.prepareCall("{call InsertNewItem(?, ?, ?)}");
-            proc.setString(1, name);
-            proc.setBigDecimal(2, new BigDecimal(price));
-            proc.setInt(3, quantity);
-            proc.executeUpdate();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Incorrect Format: \n" + e.toString());
-        }
-    }
+    
 
-    public void deleteRecord(String id) {
-        try {
-            String sql = "delete from items where ItemID = " + id;
-            Statement st;
-            st = connection.createStatement();
-            int rs = st.executeUpdate(sql);
-            JOptionPane.showMessageDialog(null, "The Record has been eliminated successfully");
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-    }
 
-    public void updateItem(String name, Double price, Integer quantity, String id) {
-
-        try {
-
-            String sql = "UPDATE Items SET Name = '" + name + "', Price = " + price
-                    + ", Quantity = " + quantity + " WHERE ItemID = " + id + ";";
-
-            Statement st;
-            st = connection.createStatement();
-            int rs = st.executeUpdate(sql);
-            JOptionPane.showMessageDialog(null, "The Record has been updated");
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.toString());
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Incorrect Format: \n" + e.toString());
-        }
-    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
